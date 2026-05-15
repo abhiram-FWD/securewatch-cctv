@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.sqlite3", "nodejs_20"]
+
+[phases.install]
+cmds = ["composer install --no-dev", "npm install"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "php artisan migrate:fresh --seed && php artisan serve --host=0.0.0.0 --port=$PORT"
