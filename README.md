@@ -1,59 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SecureWatch — CCTV Monitoring System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based surveillance system built with
+Laravel 11 MVC for crowd management,
+crime prevention, and worksite monitoring.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Real-time alerts with Pusher broadcasting
+- Sound notifications for on-duty staff
+- Emergency alert system
+- Role-based access (Admin/Manager/Guard)
+- Shift management (Morning/Night/Day)
+- Camera management with live feeds
+- Admin approval for new registrations
+- PDF report generation
+- Chart.js data visualization
+- Admin messaging system
+- Activity logs
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- Composer
+- Node.js + NPM
+- Git
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. Clone the project
+   git clone https://github.com/abhiram-FWD/securewatch-cctv.git
+   cd securewatch-cctv
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Install PHP packages
+   composer install
 
-## Laravel Sponsors
+3. Install JS packages
+   npm install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. Setup environment file
+   cp .env.example .env
+   php artisan key:generate
 
-### Premium Partners
+5. Run migrations and seed
+   php artisan migrate:fresh --seed
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+6. Build assets
+   npm run build
 
-## Contributing
+7. Start server
+   php artisan serve
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+8. Open browser
+   http://localhost:8000
 
-## Code of Conduct
+Note: Uses SQLite - No database setup needed!
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Login Credentials
 
-## Security Vulnerabilities
+### Admin
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Email: admin@gmail.com
+- Password: admin@123
 
-## License
+### Managers
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Email                    | Password    |
+| ------------------------ | ----------- |
+| crowd@securewatch.com    | password123 |
+| crime@securewatch.com    | password123 |
+| worksite@securewatch.com | password123 |
+
+### Guards
+
+| Email                         | Password    | Shift   |
+| ----------------------------- | ----------- | ------- |
+| guard.alpha@securewatch.com   | password123 | Morning |
+| guard.beta@securewatch.com    | password123 | Morning |
+| guard.charlie@securewatch.com | password123 | Night   |
+| guard.delta@securewatch.com   | password123 | Night   |
+
+## Camera Assignments
+
+| Manager          | Cameras        |
+| ---------------- | -------------- |
+| Crowd Manager    | Camera 5, 6    |
+| Crime Manager    | Camera 1, 2, 3 |
+| Worksite Manager | Camera 4, 7, 8 |
+
+## Tech Stack
+
+- Backend: Laravel 11 (PHP)
+- Frontend: Bootstrap 5 + Blade
+- Database: SQLite
+- Real-time: Pusher + Laravel Echo
+- Charts: Chart.js
+- PDF: DomPDF
+- Roles: Spatie Laravel Permission
+
+## Common Issues
+
+Run these if you get errors:
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan migrate:fresh --seed
