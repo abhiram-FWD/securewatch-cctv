@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.sqlite3", "php82Extensions.mbstring", "php82Extensions.xml", "php82Extensions.tokenizer", "php82Extensions.curl", "nodejs_20"]
+nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Extensions.mbstring", "php82Extensions.xml", "php82Extensions.tokenizer", "php82Extensions.curl", "nodejs_20"]
 
 [phases.install]
 cmds = ["composer install --no-dev --optimize-autoloader", "npm install"]
@@ -8,4 +8,4 @@ cmds = ["composer install --no-dev --optimize-autoloader", "npm install"]
 cmds = ["npm run build"]
 
 [start]
-cmd = "touch /app/database/database.sqlite && php artisan migrate:fresh --seed --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "php artisan migrate:fresh --seed --force && php artisan serve --host=0.0.0.0 --port=$PORT"
