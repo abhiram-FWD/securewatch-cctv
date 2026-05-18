@@ -173,23 +173,25 @@ class AlertController extends Controller
         $user = \Illuminate\Support\Facades\Auth::user();
         
         if ($user->role === 'guard') {
+            // Notify all managers
             $managers = \App\Models\User::where('role', 'manager')->get();
-            foreach ($managers as $manager) {
+            foreach($managers as $manager) {
                 \App\Models\Notification::create([
                     'user_id' => $manager->id,
-                    'title' => "Alert Resolved",
-                    'message' => "Alert #{$alert->id} has been resolved by {$user->name}",
-                    'type' => 'alert',
+                    'message' => "Alert #{$alert->id} on {$alert->camera->name} has been resolved by {$user->name}.",
+                    'type' => 'alert_resolved',
+                    'is_read' => false
                 ]);
             }
 
+            // Notify admin
             $admins = \App\Models\User::where('role', 'admin')->get();
-            foreach ($admins as $admin) {
+            foreach($admins as $admin) {
                 \App\Models\Notification::create([
                     'user_id' => $admin->id,
-                    'title' => "Alert Resolved",
-                    'message' => "Alert #{$alert->id} has been resolved by {$user->name}",
-                    'type' => 'alert',
+                    'message' => "Alert #{$alert->id} resolved by {$user->name}.",
+                    'type' => 'alert_resolved',
+                    'is_read' => false
                 ]);
             }
             

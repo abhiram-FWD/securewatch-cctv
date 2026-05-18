@@ -62,6 +62,19 @@
                             </select>
                             @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
+
+                        <div class="col-12 mb-3" id="cameraSection" style="display:none">
+                          <label class="form-label fw-medium">Assign Cameras</label>
+                          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; max-height:200px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:6px; padding:10px">
+                            @foreach($cameras as $camera)
+                              <label style="display:flex; align-items:center; gap:8px; font-size:13px">
+                                <input type="checkbox" name="cameras[]" value="{{ $camera->id }}">
+                                {{ $camera->name }}
+                                <small style="color:#94a3b8">{{ $camera->location }}</small>
+                              </label>
+                            @endforeach
+                          </div>
+                        </div>
                     </div>
                     <hr class="my-4">
                     <div class="d-flex justify-content-end gap-2">
@@ -82,18 +95,23 @@
         const roleSelect = document.getElementById('role-select');
         const shiftContainer = document.getElementById('shift-container');
         const areaContainer = document.getElementById('area-container');
+        const cameraSection = document.getElementById('cameraSection');
 
         function toggleFields() {
             const role = roleSelect.value;
+            
             if (role === 'manager') {
                 shiftContainer.style.display = 'block';
                 areaContainer.style.display = 'block';
+                cameraSection.style.display = 'block';
             } else if (role === 'guard') {
                 shiftContainer.style.display = 'block';
                 areaContainer.style.display = 'block';
+                cameraSection.style.display = 'none';
             } else {
                 shiftContainer.style.display = 'none';
                 areaContainer.style.display = 'none';
+                cameraSection.style.display = 'none';
             }
         }
 

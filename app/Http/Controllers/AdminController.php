@@ -51,7 +51,8 @@ class AdminController extends Controller
     public function createUser()
     {
         $shifts = Shift::all();
-        return view('admin.users.create', compact('shifts'));
+        $cameras = Camera::where('status','active')->get();
+        return view('admin.users.create', compact('shifts', 'cameras'));
     }
 
     public function storeUser(Request $request)
@@ -78,6 +79,10 @@ class AdminController extends Controller
 
         $user->assignRole($validated['role']);
 
+        if($request->role === 'manager' && $request->cameras) {
+            $user->cameras()->sync($request->cameras);
+        }
+
         Log::create([
             'user_id' => Auth::id(),
             'action' => 'Created User',
@@ -91,7 +96,8 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
         $shifts = Shift::all();
-        return view('admin.users.edit', compact('user', 'shifts'));
+        $cameras = Camera::where('status','active')->get();
+        return view('admin.users.edit', compact('user', 'shifts', 'cameras'));
     }
 
     public function updateUser(Request $request, $id)
@@ -117,6 +123,12 @@ class AdminController extends Controller
         $user->save();
 
         $user->syncRoles([$validated['role']]);
+
+        if($request->role === 'manager' && $request->cameras) {
+            $user->cameras()->sync($request->cameras);
+        } elseif ($request->role === 'manager') {
+            $user->cameras()->sync([]);
+        }
 
         Log::create([
             'user_id' => Auth::id(),
