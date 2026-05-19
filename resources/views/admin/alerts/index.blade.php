@@ -84,9 +84,9 @@
                             @endif
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-outline-secondary px-3" title="View alert details">
+                            <a href="{{ route('admin.alerts.show', $alert->id) }}" class="btn btn-sm btn-outline-secondary px-3" title="View alert details">
                                 <i class="bi bi-eye me-1"></i>View
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 @empty

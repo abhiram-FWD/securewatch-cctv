@@ -65,6 +65,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Alerts
     Route::get('/alerts', [AlertController::class, 'adminIndex'])->name('alerts.index');
+    Route::get('/alerts/{id}', [AlertController::class, 'show'])->name('alerts.show');
 });
 
 // MANAGER ROUTES

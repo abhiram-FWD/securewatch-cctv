@@ -143,7 +143,7 @@
     <div class="card mb-4 border-0 shadow-sm">
         <div class="card-header bg-white py-3">
             <h5 class="mb-0 d-flex align-items-center">
-                👷 Day Shift (Managers) &mdash; 9:00 AM to 6:00 PM
+                👷 Day Shift (Managers) &mdash; 9:00 AM to 8:00 PM
                 <span class="badge bg-teal ms-3">{{ $managers->count() }} Managers</span>
             </h5>
         </div>

@@ -7,12 +7,12 @@
 @if(session('is_on_duty'))
 <div class="alert alert-success border-0 shadow-sm d-flex align-items-center mb-4">
     <i class="bi bi-circle-fill text-success me-3 fs-5"></i>
-    <div class="fw-medium">You are ON DUTY | Shift ends at {{ Auth::user()->shift == 'morning' ? '18:00' : (Auth::user()->shift == 'night' ? '06:00' : '18:00') }}</div>
+    <div class="fw-medium">You are ON DUTY | Shift ends at {{ Auth::user()->shift == 'morning' ? '06:00 PM' : (Auth::user()->shift == 'night' ? '06:00 AM' : '08:00 PM') }}</div>
 </div>
 @else
 <div class="alert alert-secondary border-0 shadow-sm d-flex align-items-center mb-4 text-secondary">
     <i class="bi bi-moon-stars-fill me-3 fs-5"></i>
-    <div class="fw-medium">You are currently OFF DUTY. Your shift starts at {{ Auth::user()->shift == 'morning' ? '06:00' : (Auth::user()->shift == 'night' ? '18:00' : '09:00') }}</div>
+    <div class="fw-medium">You are currently OFF DUTY. Your shift starts at {{ Auth::user()->shift == 'morning' ? '06:00 AM' : (Auth::user()->shift == 'night' ? '06:00 PM' : '09:00 AM') }}</div>
 </div>
 @endif
 

@@ -25,26 +25,12 @@
                 <div class="small fw-bold">{{ $camera->name }}</div>
                 <div class="small text-white-50">{{ $camera->location }}</div>
             </div>
-            <div class="camera-hover-btn">
-                <a href="{{ route('admin.cameras.edit', $camera->id) }}" class="btn btn-sm btn-outline-light w-100">Edit Camera</a>
-            </div>
-        </div>
-        <div class="content-card mt-2 mb-0">
-            <div class="card-body-custom py-2">
-                <strong class="small text-muted d-block mb-1">Assigned Managers</strong>
-                @if($camera->managers->count() > 0)
-                    @foreach($camera->managers as $manager)
-                        <span class="badge bg-light text-dark border me-1">{{ $manager->name }}</span>
-                    @endforeach
-                @else
-                    <span class="text-muted small fst-italic">None assigned</span>
-                @endif
-            </div>
-            <div class="card-body-custom pt-0 d-flex justify-content-end">
-                <form action="{{ route('admin.cameras.delete', $camera->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+            <div class="camera-hover-btn d-flex flex-column gap-2" style="width: 80%;">
+                <a href="{{ route('admin.cameras.edit', $camera->id) }}" class="btn btn-sm btn-light w-100">Edit Camera</a>
+                <form action="{{ route('admin.cameras.delete', $camera->id) }}" method="POST" onsubmit="return confirm('Are you sure?')" class="w-100 mb-0">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    <button type="submit" class="btn btn-sm btn-danger w-100">Delete Camera</button>
                 </form>
             </div>
         </div>

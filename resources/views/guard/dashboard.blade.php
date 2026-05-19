@@ -10,7 +10,7 @@
             <div>
                 <strong>You are ON DUTY</strong> | 
                 @if(session('shift_start') && session('shift_end'))
-                    Shift ends at {{ \Carbon\Carbon::parse(session('shift_end'))->format('H:i') }}
+                    Shift ends at {{ \Carbon\Carbon::parse(session('shift_end'))->format('h:i A') }}
                 @else
                     Shift details unavailable
                 @endif
@@ -22,7 +22,7 @@
             <div>
                 <strong>You are currently OFF DUTY 😴</strong><br>
                 @if(session('shift_start'))
-                    Your next shift starts at {{ \Carbon\Carbon::parse(session('shift_start'))->format('H:i') }}. 
+                    Your next shift starts at {{ \Carbon\Carbon::parse(session('shift_start'))->format('h:i A') }}. 
                 @endif
                 <span class="text-danger fw-bold">You cannot raise alerts while off duty.</span>
             </div>

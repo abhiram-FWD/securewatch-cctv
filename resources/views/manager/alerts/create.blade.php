@@ -35,7 +35,7 @@
                                 <label class="form-label fw-bold text-secondary">Camera Location <span class="text-danger">*</span></label>
                                 <select name="camera_id" class="form-select form-select-lg" required>
                                     <option value="">Select Camera...</option>
-                                    @foreach(\App\Models\Camera::where('status', 'active')->get() as $camera)
+                                    @foreach(\Illuminate\Support\Facades\Auth::user()->cameras()->where('status', 'active')->get() as $camera)
                                         <option value="{{ $camera->id }}" {{ request('camera_id') == $camera->id ? 'selected' : '' }}>
                                             {{ $camera->name }} ({{ $camera->location }})
                                         </option>

@@ -92,12 +92,14 @@ class AlertController extends Controller
     {
         $alert = Alert::with(['camera', 'raisedBy', 'resolvedBy'])->findOrFail($id);
         
+        if (\Illuminate\Support\Facades\Auth::user()->role === 'admin') {
+            return view('admin.alerts.show', compact('alert'));
+        }
+
         if (\Illuminate\Support\Facades\Auth::user()->role === 'manager') {
             return view('manager.alerts.show', compact('alert'));
         }
         
-        // Wait, guard doesn't have a specific show view? Let me check the user prompt.
-        // Prompt says guard resolve uses guard.alerts.resolve. I'll make a separate method for that later if needed.
         return redirect()->route('guard.alerts');
     }
 
@@ -231,6 +233,13 @@ class AlertController extends Controller
             'type' => 'required|in:crowd,crime,worksite',
             'description' => 'required|string|min:10',
         ]);
+
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if ($user->role === 'manager') {
+            if (!$user->cameras()->where('cameras.id', $validated['camera_id'])->exists()) {
+                return redirect()->back()->with('error', 'You can only raise alerts for cameras assigned to you.');
+            }
+        }
 
         $alert = Alert::create([
             'camera_id' => $validated['camera_id'],
