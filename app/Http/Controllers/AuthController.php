@@ -89,6 +89,7 @@ class AuthController extends Controller
       $request->validate([
         'email' => 'required|email',
         'password' => 'required|min:4',
+        'login_type' => 'required|in:admin,manager,guard',
       ]);
 
       // HARDCODED ADMIN CHECK
@@ -98,6 +99,12 @@ class AuthController extends Controller
         $request->email === 'admin@gmail.com' && 
         $request->password === 'admin@123'
       ) {
+        if ($request->login_type !== 'admin') {
+          return back()->withErrors([
+            'email' => 'Admin details cannot be used for manager or guard login.'
+          ]);
+        }
+
         // Find admin user in database
         $adminUser = \App\Models\User::where('email', 'admin@gmail.com')
           ->where('role', 'admin')
@@ -137,6 +144,14 @@ class AuthController extends Controller
       ], $request->remember)) {
 
         $user = Auth::user();
+
+        // Enforce login_type matching the role
+        if ($user->role !== $request->login_type) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'These credentials are not valid for the selected login type.'
+            ]);
+        }
 
         // Block if admin tries to login 
         // through normal form (extra security)

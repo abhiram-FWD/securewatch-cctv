@@ -69,6 +69,7 @@
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
+                <input type="hidden" name="login_type" id="login_type" value="admin">
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-semibold">Email Address</label>
                     <input type="email" id="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus placeholder="Enter your email">
@@ -132,6 +133,9 @@ function switchTab(role) {
     .forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + role)
     .classList.add('active');
+
+  // Update hidden input
+  document.getElementById('login_type').value = role;
 
   // Update placeholders
   document.getElementById('email')
