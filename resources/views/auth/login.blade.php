@@ -79,10 +79,15 @@
 
                 <div class="mb-4">
                     <label class="form-label text-muted small fw-semibold">Password</label>
-                    <input type="password" id="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" required placeholder="Enter your password">
-                    <small id="login-hint" style="color:#94a3b8; font-size:11px">Use your admin credentials</small>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" class="form-control form-control-lg border-end-0 @error('password') is-invalid @enderror" required placeholder="Enter your password">
+                        <span class="input-group-text bg-white border-start-0" id="togglePassword" style="cursor: pointer;">
+                            <i class="bi bi-eye-slash text-muted" id="togglePasswordIcon"></i>
+                        </span>
+                    </div>
+                    <small id="login-hint" style="color:#94a3b8; font-size:11px; display:block; margin-top: 4px;">Use your admin credentials</small>
                     @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
@@ -139,5 +144,19 @@ function switchTab(role) {
     .textContent = tabs[role].hint;
 
 }
+
+document.getElementById('togglePassword').addEventListener('click', function () {
+  const passwordInput = document.getElementById('password');
+  const icon = document.getElementById('togglePasswordIcon');
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    icon.classList.remove('bi-eye-slash');
+    icon.classList.add('bi-eye');
+  } else {
+    passwordInput.type = 'password';
+    icon.classList.remove('bi-eye');
+    icon.classList.add('bi-eye-slash');
+  }
+});
 </script>
 @endsection

@@ -63,7 +63,10 @@
                                 <label for="password" class="form-label text-muted small fw-bold">PASSWORD</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                                    <input type="password" class="form-control bg-light border-start-0 ps-0" id="password" name="password" required>
+                                    <input type="password" class="form-control bg-light border-start-0 border-end-0 ps-0" id="password" name="password" required>
+                                    <span class="input-group-text bg-light border-start-0" id="togglePassword" style="cursor: pointer;">
+                                        <i class="bi bi-eye-slash text-muted" id="togglePasswordIcon"></i>
+                                    </span>
                                 </div>
                                 <div class="form-text small">Must be at least 8 chars, contain an uppercase letter & number.</div>
                             </div>
@@ -72,7 +75,10 @@
                                 <label for="password_confirmation" class="form-label text-muted small fw-bold">CONFIRM PASSWORD</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
-                                    <input type="password" class="form-control bg-light border-start-0 ps-0" id="password_confirmation" name="password_confirmation" required>
+                                    <input type="password" class="form-control bg-light border-start-0 border-end-0 ps-0" id="password_confirmation" name="password_confirmation" required>
+                                    <span class="input-group-text bg-light border-start-0" id="toggleConfirmPassword" style="cursor: pointer;">
+                                        <i class="bi bi-eye-slash text-muted" id="toggleConfirmPasswordIcon"></i>
+                                    </span>
                                 </div>
                             </div>
 
@@ -128,6 +134,34 @@
 
         roleSelect.addEventListener('change', toggleShift);
         toggleShift(); // run on page load
+
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password_confirmation');
+            const icon = document.getElementById('toggleConfirmPasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        });
     </script>
 </body>
 </html>
