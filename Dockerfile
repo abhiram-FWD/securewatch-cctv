@@ -1,18 +1,23 @@
-FROM richarvey/nginx-php-fpm:latest
+# Stage 1: Build modern CSS/JS assets using Node 20
+FROM node:20-alpine AS frontend-builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-# Set working directory
+# Stage 2: Production PHP + Nginx image
+FROM richarvey/nginx-php-fpm:latest
 WORKDIR /var/www/html
 
-# Copy application files
+# Copy all application files
 COPY . .
+
+# Copy compiled assets from Stage 1
+COPY --from=frontend-builder /app/public/build ./public/build
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
-
-# Install Node dependencies and build Vite assets
-RUN apk add --no-cache nodejs npm && \
-    npm install && \
-    npm run build
 
 # Image configuration
 ENV WEBROOT /var/www/html/public
