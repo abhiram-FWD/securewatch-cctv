@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-2 d-flex gap-2">
                 <button type="submit" class="btn btn-sm btn-secondary w-100">Filter</button>
-                <a href="{{ route('admin.reports.download') ?? '#' }}" class="btn btn-sm btn-danger w-100" title="Export PDF"><i class="bi bi-file-pdf"></i> PDF</a>
+                <a href="{{ route('admin.logs.download', request()->query()) }}" class="btn btn-sm btn-danger w-100" title="Export PDF"><i class="bi bi-file-pdf"></i> PDF</a>
             </div>
         </form>
     </div>

@@ -60,31 +60,55 @@
     
     <div class="col-lg-6">
         <div class="card border-0 shadow-sm rounded-4">
-            <div class="card-header bg-white border-bottom p-4">
-                <h5 class="fw-bold mb-0">Write Resolution Report</h5>
-                <p class="text-secondary small mb-0 mt-1">Describe exactly what happened and what action you took. Minimum 2 lines.</p>
-            </div>
-            <div class="card-body p-4">
-                <form action="{{ route('guard.alerts.resolve', $alert->id) }}" method="POST">
-                    @csrf
-                    
-                    <div class="mb-4">
-                        <textarea name="resolution_note" id="resolutionNote" class="form-control rounded-3 shadow-sm border-0 bg-light p-3" rows="6" minlength="20" maxlength="500" required placeholder="Example: Attended the location and found a group of 5 people. Requested them to disperse, which they did without incident. Scene is now clear..."></textarea>
+            @if($alert->status === 'resolved')
+                <div class="card-header bg-white border-bottom p-4">
+                    <h5 class="fw-bold mb-0 text-success"><i class="bi bi-check-circle-fill me-2"></i>Alert Resolved</h5>
+                    <p class="text-secondary small mb-0 mt-1">This alert has been successfully resolved.</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <div class="small text-secondary fw-bold mb-1">Resolved By</div>
+                        <div class="fw-medium">{{ $alert->resolvedBy->name ?? 'Unknown' }}</div>
+                    </div>
+                    @if($alert->resolution_note)
+                    <div class="mb-3">
+                        <div class="small text-secondary fw-bold mb-1">Resolution Report</div>
+                        <div class="bg-light p-3 rounded-3 text-secondary">{{ $alert->resolution_note }}</div>
+                    </div>
+                    @endif
+                    <div class="d-flex justify-content-end border-top pt-4">
+                        <a href="{{ route('guard.alerts') }}" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Alerts
+                        </a>
+                    </div>
+                </div>
+            @else
+                <div class="card-header bg-white border-bottom p-4">
+                    <h5 class="fw-bold mb-0">Write Resolution Report</h5>
+                    <p class="text-secondary small mb-0 mt-1">Describe exactly what happened and what action you took. Minimum 2 lines.</p>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{{ route('guard.alerts.resolve', $alert->id) }}" method="POST">
+                        @csrf
                         
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="small text-secondary"><i class="bi bi-exclamation-triangle me-1"></i> This action cannot be undone</div>
-                            <div id="resCharCount" class="small fw-bold text-danger">0/20 minimum chars</div>
+                        <div class="mb-4">
+                            <textarea name="resolution_note" id="resolutionNote" class="form-control rounded-3 shadow-sm border-0 bg-light p-3" rows="6" minlength="20" maxlength="500" required placeholder="Example: Attended the location and found a group of 5 people. Requested them to disperse, which they did without incident. Scene is now clear..."></textarea>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <div class="small text-secondary"><i class="bi bi-exclamation-triangle me-1"></i> This action cannot be undone</div>
+                                <div id="resCharCount" class="small fw-bold text-danger">0/20 minimum chars</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="d-flex gap-2 justify-content-end border-top pt-4">
-                        <a href="{{ route('guard.alerts') }}" class="btn btn-light rounded-pill px-4 fw-bold">Cancel</a>
-                        <button type="submit" id="resolveBtn" class="btn btn-success rounded-pill px-5 fw-bold" disabled>
-                            <i class="bi bi-check-circle me-1"></i> Mark as Resolved
-                        </button>
-                    </div>
-                </form>
-            </div>
+                        <div class="d-flex gap-2 justify-content-end border-top pt-4">
+                            <a href="{{ route('guard.alerts') }}" class="btn btn-light rounded-pill px-4 fw-bold">Cancel</a>
+                            <button type="submit" id="resolveBtn" class="btn btn-success rounded-pill px-5 fw-bold" disabled>
+                                <i class="bi bi-check-circle me-1"></i> Mark as Resolved
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
 </div>

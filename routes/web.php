@@ -62,6 +62,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Logs
     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+    Route::get('/logs/download', [LogController::class, 'download'])->name('logs.download');
 
     // Alerts
     Route::get('/alerts', [AlertController::class, 'adminIndex'])->name('alerts.index');

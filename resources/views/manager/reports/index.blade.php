@@ -168,7 +168,14 @@
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                    y: { 
+                        beginAtZero: true, 
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        }
+                    },
                     x: { grid: { display: false } }
                 }
             }

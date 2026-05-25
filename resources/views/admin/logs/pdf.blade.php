@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureWatch Activity Logs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1D9E75;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            color: #1D9E75;
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .meta-info {
+            text-align: right;
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+        }
+        /* Action classes matching the application theme */
+        .badge-login { background-color: #0d6efd; }
+        .badge-raised { background-color: #dc3545; }
+        .badge-resolved { background-color: #198754; }
+        .badge-camera { background-color: #17a2b8; }
+        .badge-message { background-color: #6c757d; }
+        .badge-deleted { background-color: #e67e22; }
+        .badge-default { background-color: #6c757d; }
+        
+        .role-badge {
+            display: inline-block;
+            padding: 2px 4px;
+            background-color: #f1f3f5;
+            color: #495057;
+            border: 1px solid #dee2e6;
+            border-radius: 3px;
+            font-size: 8px;
+            margin-top: 3px;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        .user-name {
+            font-weight: bold;
+            color: #212529;
+        }
+        .text-muted {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SecureWatch</h1>
+        <p>Activity & Audit Logs Report</p>
+    </div>
+
+    <div class="meta-info">
+        Generated on: {{ \Carbon\Carbon::now()->format('F d, Y h:i A') }}<br>
+        Total Records: {{ count($logs) }}
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="25%">User</th>
+                <th width="20%">Action</th>
+                <th width="35%">Description</th>
+                <th width="20%">Date & Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($logs as $log)
+                <tr>
+                    <td>
+                        <div class="user-name">{{ $log->user->name ?? 'System' }}</div>
+                        <div class="role-badge">{{ $log->user->role ?? 'N/A' }}</div>
+                    </td>
+                    <td>
+                        @php
+                            $action = strtolower($log->action);
+                            $badgeClass = 'badge-default';
+                            if(str_contains($action, 'login')) $badgeClass = 'badge-login';
+                            elseif(str_contains($action, 'raised')) $badgeClass = 'badge-raised';
+                            elseif(str_contains($action, 'resolved')) $badgeClass = 'badge-resolved';
+                            elseif(str_contains($action, 'camera')) $badgeClass = 'badge-camera';
+                            elseif(str_contains($action, 'message')) $badgeClass = 'badge-message';
+                            elseif(str_contains($action, 'deleted')) $badgeClass = 'badge-deleted';
+                        @endphp
+                        <span class="badge {{ $badgeClass }}">{{ $log->action }}</span>
+                    </td>
+                    <td class="text-muted">{{ $log->description }}</td>
+                    <td>
+                        <div>{{ $log->created_at->format('M d, Y') }}</div>
+                        <div class="text-muted" style="font-size: 9px;">{{ $log->created_at->format('h:i A') }}</div>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px;">No activity logs found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Generated by SecureWatch System on {{ \Carbon\Carbon::now()->format('F d, Y H:i:s') }}
+    </div>
+
+</body>
+</html>

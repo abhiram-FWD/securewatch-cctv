@@ -101,19 +101,26 @@
             </div>
             <div class="card-body p-4">
                 @if($alert->status == 'open')
-                    <form action="{{ route('manager.alerts.resolve', $alert->id) }}" method="POST" id="resolveForm">
-                        @csrf
-                        <div class="mb-3">
-                            <label class="form-label fw-medium small text-muted">What happened and what action was taken?</label>
-                            <textarea name="resolution_note" id="resolution_note" class="form-control @error('resolution_note') is-invalid @enderror" rows="4" required placeholder="Detail the resolution here..."></textarea>
-                            @error('resolution_note')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                            <div class="d-flex justify-content-between mt-1">
-                                <div class="form-text">Minimum 20 characters required.</div>
-                                <small class="text-muted" id="charCount">0/20</small>
-                            </div>
+                    @if($alert->raisedBy && $alert->raisedBy->role === 'manager')
+                        <div class="d-flex flex-column align-items-center text-center p-4 rounded" style="border: 2px solid #E24B4A; background-color: rgba(226, 75, 74, 0.04); box-shadow: 0 0 15px rgba(226, 75, 74, 0.3);">
+                            <i class="bi bi-shield-fill-exclamation text-danger fs-3 mb-2"></i>
+                            <h6 class="fw-bold text-danger mb-0">Pending Guard Resolution</h6>
                         </div>
-                        <button type="submit" id="resolveBtn" class="btn btn-success w-100" disabled><i class="bi bi-check-circle me-2"></i>Mark as Resolved</button>
-                    </form>
+                    @else
+                        <form action="{{ route('manager.alerts.resolve', $alert->id) }}" method="POST" id="resolveForm">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label fw-medium small text-muted">What happened and what action was taken?</label>
+                                <textarea name="resolution_note" id="resolution_note" class="form-control @error('resolution_note') is-invalid @enderror" rows="4" required placeholder="Detail the resolution here..."></textarea>
+                                @error('resolution_note')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <div class="d-flex justify-content-between mt-1">
+                                    <div class="form-text">Minimum 20 characters required.</div>
+                                    <small class="text-muted" id="charCount">0/20</small>
+                                </div>
+                            </div>
+                            <button type="submit" id="resolveBtn" class="btn btn-success w-100" disabled><i class="bi bi-check-circle me-2"></i>Mark as Resolved</button>
+                        </form>
+                    @endif
                 @else
                     <div class="bg-success bg-opacity-10 text-success p-4 rounded border border-success border-opacity-25 mb-3">
                         <p class="mb-0 fw-medium">{{ $alert->resolution_note }}</p>
@@ -127,7 +134,7 @@
     </div>
 </div>
 
-@if($alert->status == 'open')
+@if($alert->status == 'open' && !($alert->raisedBy && $alert->raisedBy->role === 'manager'))
 <script>
     document.getElementById('resolution_note').addEventListener('input', function() {
         const len = this.value.length;

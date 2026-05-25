@@ -9,8 +9,7 @@
         <h2 class="mb-0">Daily Report</h2>
         <div class="d-flex gap-3">
             <form action="{{ route('admin.reports.index') }}" method="GET" class="d-flex align-items-center gap-2">
-                <input type="date" name="date" class="form-control" value="{{ $date }}" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
-                <button type="submit" class="btn btn-teal">Generate Report</button>
+                <input type="date" name="date" class="form-control" value="{{ $date }}" max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" onchange="this.form.submit()">
             </form>
             <a href="{{ route('admin.reports.download', ['date' => $date]) }}" class="btn btn-danger d-flex align-items-center">
                 <i class="bi bi-file-pdf me-2"></i> Download PDF Report

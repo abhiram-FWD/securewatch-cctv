@@ -125,9 +125,9 @@
                                             <i class="bi bi-check2-circle me-1"></i> Resolve
                                         </a>
                                     @else
-                                        <button type="button" class="btn btn-sm btn-secondary" disabled>
+                                        <a href="{{ route('guard.alerts.resolve.show', $alert->id) }}" class="btn btn-sm btn-secondary">
                                             <i class="bi bi-eye me-1"></i> View
-                                        </button>
+                                        </a>
                                     @endif
                                 </td>
                             </tr>

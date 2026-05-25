@@ -105,12 +105,14 @@ window.onload = function() {
             var len = t.value.length;
             c.textContent = len + ' / 10';
             if(len >= 10) {
-                c.style.color = '#1D9E75';
+                c.classList.remove('text-danger');
+                c.classList.add('text-success');
                 b.disabled = false;
                 b.style.opacity = '1';
                 b.style.cursor = 'pointer';
             } else {
-                c.style.color = '#E24B4A';
+                c.classList.remove('text-success');
+                c.classList.add('text-danger');
                 b.disabled = true;
                 b.style.opacity = '0.5';
                 b.style.cursor = 'not-allowed';

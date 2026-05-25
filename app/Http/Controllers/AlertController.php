@@ -143,15 +143,7 @@ class AlertController extends Controller
             'resolvedBy'
         ])->findOrFail($id);
 
-        if($alert->status === 'resolved') {
-            return redirect()
-                ->route('guard.alerts')
-                ->with('error',
-                    'This alert is already resolved.');
-        }
-
-        return view('guard.alerts.resolve',
-            compact('alert'));
+        return view('guard.alerts.resolve', compact('alert'));
     }
 
     public function resolve(Request $request, $id)
@@ -165,14 +157,19 @@ class AlertController extends Controller
         if ($alert->status !== 'open') {
             return redirect()->back()->with('error', 'Alert is already resolved.');
         }
+
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if ($user->role === 'manager') {
+            if ($alert->raisedBy && $alert->raisedBy->role === 'manager') {
+                return redirect()->back()->with('error', 'Alerts raised by managers can only be resolved by guards.');
+            }
+        }
         
         $alert->update([
             'status' => 'resolved',
             'resolution_note' => $validated['resolution_note'],
             'resolved_by' => \Illuminate\Support\Facades\Auth::id(),
         ]);
-
-        $user = \Illuminate\Support\Facades\Auth::user();
         
         if ($user->role === 'guard') {
             // Notify all managers
@@ -218,6 +215,10 @@ class AlertController extends Controller
         }
 
         broadcast(new \App\Events\AlertResolved($alert))->toOthers();
+
+        if (\Illuminate\Support\Facades\Auth::user()->role === 'guard') {
+            return redirect()->route('guard.alerts')->with('success', 'Alert marked as resolved.');
+        }
 
         return redirect()->back()->with('success', 'Alert marked as resolved.');
     }
